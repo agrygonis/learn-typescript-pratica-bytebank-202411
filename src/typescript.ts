@@ -11,11 +11,19 @@ const lista: number[] = [];
 lista.push(11, 12, 22, 13, 13);
 
 // Tipos Personalizados
-type Transacao {
+type Transacao = {
     tipoTransacao: string;
     data: Date;
     valor: number;
 }
+
+// Enum
+enum TipoTransacao { 
+    DEPOSITO = "Depósito",
+    TRANSFERENCIA = "Transferência",
+    PAGAMENTO_BOLETO = "Pagamento Boleto"
+}
+
 
 const novaTransacao: Transacao = {
     tipoTransacao: "",
