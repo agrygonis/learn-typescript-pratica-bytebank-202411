@@ -8,7 +8,7 @@ const transacoes = JSON.parse(localStorage.getItem("transacoes"), (key, value) =
 }) || [];
 function debitar(valor) {
     if (valor <= 0) {
-        throw new Error("O valor a ser debtado deve ser maior que zero!");
+        throw new Error("O valor a ser debitado deve ser maior que zero!");
     }
     if (valor > saldo) {
         throw new Error("Saldo insuficiente!");
@@ -33,14 +33,14 @@ const Conta = {
     getGruposTransacoes() {
         const gruposTransacoes = [];
         const listaTransacoes = structuredClone(transacoes);
-        const tracaoesOrdenadas = listaTransacoes.sort((t1, t2) => t2.data.getTime() - t1.data.getTime());
+        const transacoesOrdenadas = listaTransacoes.sort((t1, t2) => t2.data.getTime() - t1.data.getTime());
         let labelAtualGrupoTransacao = "";
-        for (let transacao of tracaoesOrdenadas) {
+        for (let transacao of transacoesOrdenadas) {
             let labelGrupoTransacao = transacao.data.toLocaleDateString("pt-br", { month: "long", year: "numeric" });
-            if (labelAtualGrupoTransacao != labelGrupoTransacao) {
+            if (labelAtualGrupoTransacao !== labelGrupoTransacao) {
                 labelAtualGrupoTransacao = labelGrupoTransacao;
                 gruposTransacoes.push({
-                    label: labelAtualGrupoTransacao,
+                    label: labelGrupoTransacao,
                     transacoes: []
                 });
             }
@@ -54,6 +54,7 @@ const Conta = {
         }
         else if (novaTransacao.tipoTransacao == TipoTransacao.TRANSFERENCIA || novaTransacao.tipoTransacao == TipoTransacao.PAGAMENTO_BOLETO) {
             debitar(novaTransacao.valor);
+            novaTransacao.valor *= -1;
         }
         else {
             throw new Error("Tipo de Transação é inválido!");

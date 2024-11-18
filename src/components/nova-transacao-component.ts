@@ -2,10 +2,12 @@ import { Transacao } from "../types/Transacao.js";
 import { TipoTransacao } from "../types/TipoTransacao.js";
 import SaldoComponent from "./saldo-component.js";
 import Conta from "../types/Conta.js";
+import ExtratoComponent from "./extrato-component.js";
 
 const elementoFormulario = document.querySelector(".block-nova-transacao form") as HTMLFormElement;
 elementoFormulario.addEventListener("submit", function(event) {
-    try {
+    try 
+    {
         event.preventDefault();
         if (!elementoFormulario.checkValidity()) {
             alert("Por favor, preencha todos os campos da transação!");
@@ -18,18 +20,20 @@ elementoFormulario.addEventListener("submit", function(event) {
 
         let tipoTransacao: TipoTransacao = inputTipoTransacao.value as TipoTransacao;
         let valor: number = inputValor.valueAsNumber;
-        let data: Date = new Date(inputData.value);
+        let data: Date = new Date(inputData.value + " 00:00:00");
 
         const novaTransacao: Transacao = {
             tipoTransacao: tipoTransacao,
-            valor: valor,
-            data: data
-        };
+            valor: valor, 
+            data: data,
+        }
 
         Conta.registrarTransacao(novaTransacao);
         SaldoComponent.atualizar();
+        ExtratoComponent.atualizar();
         elementoFormulario.reset();
-    } catch (erro) {
+    }
+    catch(erro) {
         alert(erro.message);
     }
 });

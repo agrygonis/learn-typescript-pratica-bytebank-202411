@@ -1,9 +1,9 @@
 import Conta from "../types/Conta.js";
-import { formatarData, formatarMoeda } from '../utils/formatters.js';
-import { FormatoData } from '../types/FormatoData.js';
+import { FormatoData } from "../types/FormatoData.js";
+import { formatarMoeda, formatarData } from "../utils/formatters.js";
 const elementoRegistroTransacoesExtrato = document.querySelector(".extrato .registro-transacoes");
-renderezarExtrato();
-function renderezarExtrato() {
+renderizarExtrato();
+function renderizarExtrato() {
     const gruposTransacoes = Conta.getGruposTransacoes();
     elementoRegistroTransacoesExtrato.innerHTML = "";
     let htmlRegistroTransacoes = "";
@@ -19,16 +19,22 @@ function renderezarExtrato() {
                     <time class="data">${formatarData(transacao.data, FormatoData.DIA_MES)}</time>
                 </div>
             `;
-            htmlRegistroTransacoes += `
-                <div class="transacoes-group">
-                    <strong class="mes-group">${grupoTransacao.label}</strong>
-                    ${htmlTransacaoItem}
-                </div>
-            `;
         }
+        htmlRegistroTransacoes += `
+            <div class="transacoes-group">
+                <strong class="mes-group">${grupoTransacao.label}</strong>
+                ${htmlTransacaoItem}
+            </div>
+        `;
     }
     if (htmlRegistroTransacoes === "") {
         htmlRegistroTransacoes = "<div>Não há transações registradas.</div>";
     }
     elementoRegistroTransacoesExtrato.innerHTML = htmlRegistroTransacoes;
 }
+const ExtratoComponent = {
+    atualizar() {
+        renderizarExtrato();
+    }
+};
+export default ExtratoComponent;
